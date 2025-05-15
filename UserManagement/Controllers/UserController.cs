@@ -32,6 +32,7 @@ public class UserController : Controller
         return View(blogList);
     }
 
+
     [HttpGet]
     public IActionResult LoadBlogCards(string search)
     {
@@ -51,6 +52,7 @@ public class UserController : Controller
 
         return PartialView("_BlogCardsPartialView",blogList);
     }
+
 
     [Authorize(Roles = "User")]
     [HttpGet]
@@ -87,6 +89,7 @@ public class UserController : Controller
 
         return View(blogListViewModel);
     }
+
 
     public IActionResult OpenCommentModal()
     {
