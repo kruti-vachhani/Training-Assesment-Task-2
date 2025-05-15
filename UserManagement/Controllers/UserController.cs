@@ -1,10 +1,13 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Models;
 using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Controllers;
 
+
+[Authorize(Roles = "User")]
 public class UserController : Controller
 {
     private readonly UserManagementDbContext _context;
@@ -28,7 +31,7 @@ public class UserController : Controller
 
         return View(blogList);
     }
-    
+
     [HttpGet]
     public IActionResult LoadBlogCards(string search)
     {
@@ -49,6 +52,7 @@ public class UserController : Controller
         return PartialView("_BlogCardsPartialView",blogList);
     }
 
+    [Authorize(Roles = "User")]
     [HttpGet]
     public IActionResult BlogDetails(int blogId)
     {
@@ -90,6 +94,7 @@ public class UserController : Controller
         return PartialView("_AddCommentPartialView", commentViewModel);
     }
 
+    [Authorize(Roles = "User")]
     public IActionResult AddComment(CommentViewModel commentViewModel)
     {
         int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
