@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj": {}
+    "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj": {}
   },
   "projects": {
-    "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj": {
+    "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
+        "projectUniqueName": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
         "projectName": "UserManagement",
-        "projectPath": "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
+        "projectPath": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
         "packagesPath": "C:\\Users\\pctr25\\.nuget\\packages\\",
-        "outputPath": "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\obj\\",
+        "outputPath": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pctr25\\AppData\\Roaming\\NuGet\\NuGet.Config"

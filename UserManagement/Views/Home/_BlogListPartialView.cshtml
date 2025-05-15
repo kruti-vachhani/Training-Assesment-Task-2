@@ -4,17 +4,96 @@
 @foreach (var blog in Model)
 {
     <div class="col">
-        <div class="card p-4">
-            <h2 class="text-uppercase mb-3 fw-bold">@blog.Title</h2>
+        <div class="card p-4 h-100">
+
+            <div class="d-flex justify-content-between align-items-center ">
+
+                <h2 class="text-uppercase mb-3 fw-bold">@blog.Title</h2>
+
+                <div class="d-flex">
+                    <button class="btn" onclick="OpenBlogModal(@blog.BlogId)">
+                        <i class="bi bi-pen" style="font-size: 20px;"></i>
+                    </button>
+
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#deleteBlogModal" onclick="SetDeleteBlogId(@blog.BlogId)">
+                        <i class="bi bi-trash" style="font-size: 20px;"></i>
+                    </button>
+                </div>
+            </div>
+
             <h6 class="fw-bold mb-3" style="font-size: 18px;">@blog.PostedAt</h6>
+
             <p>@blog.Content</p>
 
             <ul class="m-0 p-0" style="list-style: none;">
-                @foreach(var tag in blog.Tags){
+                @foreach (var tag in blog.Tags)
+                {
                     <li class="text-primary">#@tag</li>
                 }
             </ul>
+
         </div>
     </div>
-
 }
+
+
+<!-- Modal for delete blog Start -->
+<div class="modal fade" id="deleteBlogModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content py-2">
+            <div class="modal-header border-0">
+                <h1 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Delete
+                    Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation" style="color: rgb(255, 187, 0); font-size: 40px;"></i>
+                <h1 class="fs-5 fw-bold">Are you sure you want to delete this Blog?
+                </h1>
+            </div>
+
+            <div class="modal-footer border-0 justify-content-center">
+
+                <button id="deleteBlogLink" type="button" class="btn btn-filled px-4 fw-bold" data-bs-dismiss="modal"
+                    onclick="deleteBlog()" style="background-color: #142ed8; color: white;">YES</button>
+
+                <button type="button" class="btn btn-outline px-4 fw-bold" data-bs-dismiss="modal"  style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">NO</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="blogIdToDelete" />
+</div>
+
+
+<script>
+    function SetDeleteBlogId(id) {
+        $('#blogIdToDelete').val(id);
+    }
+
+
+    function deleteBlog() {
+        let blogId = $('#blogIdToDelete').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Home/DeleteBlog',
+            data: { blogId: blogId },
+            success: function (response) {
+                if (response.success === false) {
+                    toastr.error(response.message || "There was an error deleting the blog.");
+                }
+                else {
+                    $('#deleteBlogModal').modal('hide');
+                    LoadBlogs();
+                    toastr.success("Blog Deleted Successfully.");
+                }
+            },
+            error: function () {
+                toastr.error("There was an error in delete section");
+            }
+        });
+    }
+</script>

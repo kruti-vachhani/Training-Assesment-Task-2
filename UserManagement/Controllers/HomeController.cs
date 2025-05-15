@@ -6,7 +6,7 @@ using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Controllers;
 
-[Authorize(Roles = "User")]
+[Authorize]
 public class HomeController : Controller
 {
     private readonly UserManagementDbContext _context;
@@ -15,6 +15,7 @@ public class HomeController : Controller
     {
         _context = context;
     }
+
 
     public IActionResult Index()
     {
@@ -25,7 +26,108 @@ public class HomeController : Controller
             return RedirectToAction("Index", "Auth");
         }
 
-        IQueryable<Blogs> blogListQuery = _context.Blogs.Where(b => !b.IsDeleted);
+        string? role = HttpContext.Items["Role"]?.ToString();
+
+        if (role == "User")
+        {
+            return RedirectToAction("Index", "User");
+        }
+        else
+        {
+            IQueryable<Blogs> blogListQuery = _context.Blogs.OrderBy(b => b.Id).Where(b => !b.IsDeleted);
+
+            List<BlogListViewModel>? blogList = blogListQuery
+            .Select(b => new BlogListViewModel
+            {
+                BlogId = b.Id,
+                Title = b.Title,
+                Content = b.Content,
+                Tags = b.Tags,
+                PostedAt = b.CreatedAt
+            }).ToList();
+
+            return View(blogList);
+        }
+    }
+
+    [Authorize(Roles = "Admin")]
+    public IActionResult OpenCreateBlogModal(int blogId)
+    {
+        BlogViewModel blogViewModel = new BlogViewModel();
+
+        if (blogId != 0)
+        {
+            Blogs? blog = _context.Blogs.FirstOrDefault(d => d.Id == blogId);
+
+            string blogTags = string.Join(",", blog.Tags.Select(p => p));
+
+            blogViewModel = new BlogViewModel
+            {
+                BlogId = blog.Id,
+                Title = blog.Title,
+                Content = blog.Content,
+                Tags = blogTags
+            };
+        }
+
+        return PartialView("_AddEditBlogPartialView", blogViewModel);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public IActionResult SaveBlog(BlogViewModel blogViewModel)
+    {
+        if (blogViewModel.BlogId == 0)
+        {
+            List<string>? tags = blogViewModel.Tags.ToString().Split(',').Select(t => t.Trim()).ToList();
+
+            Blogs? blogs = new Blogs
+            {
+                Title = blogViewModel.Title.Trim(),
+                Content = blogViewModel.Content.Trim(),
+                Tags = tags,
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = 1
+            };
+
+            if (blogs != null)
+            {
+                _context.Blogs.Add(blogs);
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Blog Created Successfully." });
+            }
+        }
+        else
+        {
+            Blogs? blog = _context.Blogs.FirstOrDefault(b => b.Id == blogViewModel.BlogId);
+
+            if (blog == null)
+            {
+                return Json(new { success = false, message = "Blog cannot found" });
+            }
+
+            List<string>? tags = blogViewModel.Tags.ToString().Split(',').Select(t => t.Trim()).ToList();
+
+            blog.Title = blogViewModel.Title;
+            blog.Content = blogViewModel.Content;
+            blog.Tags = tags;
+
+            _context.Blogs.Update(blog);
+            _context.SaveChanges();
+
+            return Json(new { success = true, message = "Blog Updated Successfully." });
+        }
+
+        return Json(new { success = false, message = "Error-Blog can't created." });
+    }
+
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public IActionResult RetriveBlogList()
+    {
+        IQueryable<Blogs> blogListQuery = _context.Blogs.OrderBy(b => b.Id).Where(b => !b.IsDeleted);
 
         List<BlogListViewModel>? blogList = blogListQuery
         .Select(b => new BlogListViewModel
@@ -37,34 +139,24 @@ public class HomeController : Controller
             PostedAt = b.CreatedAt
         }).ToList();
 
-        return View(blogList);
+        return PartialView("_BlogListPartialView", blogList);
     }
 
-    public IActionResult OpenCreateBlogModal()
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DeleteBlog(int blogId)
     {
-        BlogViewModel blogViewModel = new BlogViewModel();
-        return PartialView("_AddEditBlogPartialView", blogViewModel);
-    }
-
-    [HttpPost]
-    public IActionResult CreateBlog(BlogViewModel blogViewModel)
-    {
-        Blogs? blogs = new Blogs
+        Blogs? blog = _context.Blogs.FirstOrDefault(d => d.Id == blogId);
+        if (blog == null)
         {
-            Title = blogViewModel.Title,
-            Content = blogViewModel.Content,
-            Tags = blogViewModel.Tags
-        };
-
-        if (blogs != null)
-        {
-            _context.Blogs.Add(blogs);
-            _context.SaveChanges();
-
-            return Json(new { success = true, message = "Blog Created Successfully." });
+            return Json(new { success = false, message = "Blog not found" });
         }
 
-        return Json(new { success = false, message = "Error-Blog can't created." });
+        blog.IsDeleted = true;
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Blog Deleted Successfully." });
     }
 
 

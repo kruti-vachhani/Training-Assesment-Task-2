@@ -26,8 +26,8 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Content"
-                            style="height: 300px !important;" asp-for="Content"></textarea>
+                        <textarea class="form-control" placeholder="Content" style="height: 300px !important;"
+                            asp-for="Content"></textarea>
                         <label asp-for="Content">Content</label>
                         <span class="text-danger" asp-validation-for="Content"></span>
                     </div>
@@ -41,6 +41,8 @@
                     <button type="button" class="btn" data-bs-dismiss="modal"
                         style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">Cancel</button>
                 </div>
+
+                <input type="hidden" id="blogIdToEdit" asp-for="BlogId" />
             </form>
         </div>
     </div>
@@ -52,31 +54,30 @@
 
 <script>
     function handleBlogFormSubmission() {
-        const data = {
-            Title: $('#Title').val(),
-            Content:$('#Content').val(),
-            Tags:$('#Tags').val()
-        }
 
-        console.log(data);
+        var form = $('#blogForm')[0];
+        var blogFormData = new FormData(form);
 
-     
+        $('#blogForm').validate();
 
-  
+        if ($('#blogForm').valid() === true) {
             $.ajax({
                 type: 'POST',
-                url: '/Home/CreateBlog',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
+                url: '/Home/SaveBlog',
+                contentType: false,
+                processData: false,
+                data: blogFormData,
                 success: function (response) {
                     $('#blogContainer').html(response);
                     toastr.success(response.message);
                     $('#blogModal').modal('hide');
+                    LoadBlogs();    
                 },
                 error: function () {
                     toastr.error("Error in creating Blog");
                 }
             });
-        
+
+        }
     }
 </script>
