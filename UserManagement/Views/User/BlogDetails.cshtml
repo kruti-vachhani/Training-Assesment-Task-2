@@ -1,0 +1,47 @@
+@using UserManagement.Models.ViewModels;
+@model BlogListViewModel;
+@{
+    ViewData["Title"] = "Blog Details";
+}
+
+
+<div class="order-details-page min-vh-100">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <h1 style="color: #1a35e7; font-size: 35px;" class="fw-bold mb-2 mb-sm-0">Blog-Details</h1>
+
+        <a asp-controller="User" asp-action="Index" class="btn px-sm-3 py-sm-2 py-1 "
+            style="font-size: 18px; background-color: #ffffff;border-color: #142ed8; color: #142ed8;">
+            <span class="d-none d-sm-inline">Back</span>
+            <span class="d-sm-none" style="font-size: 1.5rem;"></span>
+            <i class="fa-regular fa-less-than d-sm-none" style="font-size: 1.5rem;"></i>
+        </a>
+
+    </div>
+
+    <div class="card p-3 mt-5">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column gap-2 ms-2">
+                <h3 class="fw-bold ">
+                    @Model.Title
+                </h3>
+                <h6>
+                  <span style="color: #5568e9;"> Posted On:</span> @Model.PostedAt
+                </h6>
+            </div>
+
+            <div class="p-1 btn "
+                style="border: 1px solid #142ed8; border-radius:5px;background-color: #ffffff;color: #142ed8;">
+                <i class="bi bi-chat-left-text p-2" style="font-size: 25px; font-weight: bolder;"></i>
+            </div>
+        </div>
+
+        <div class="p-4">
+            @Model.Content
+        </div>
+
+    </div>
+
+</div>

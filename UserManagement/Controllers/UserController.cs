@@ -21,12 +21,34 @@ public class UserController : Controller
         .Select(b => new BlogListViewModel
         {
             BlogId = b.Id,
-            Title = b.Title,
-            Content = b.Content,
-            Tags = b.Tags,
+            Title=b.Title,
             PostedAt = b.CreatedAt
         }).ToList();
 
         return View(blogList);
+    }
+
+    [HttpGet]
+    public IActionResult BlogDetails(int blogId)
+    {
+         if (blogId == 0)
+        {
+            return RedirectToAction("Index", "User");
+        }
+
+        Blogs? blog = _context.Blogs.FirstOrDefault(d => d.Id == blogId);
+
+        string blogTags = string.Join(",", blog.Tags.Select(p => p));
+
+        BlogListViewModel? blogListViewModel = new BlogListViewModel
+        {
+            BlogId = blog.Id,
+            Title = blog.Title,
+            Content = blog.Content,
+            Tags = blog.Tags,
+            PostedAt=blog.CreatedAt
+        };
+
+        return View(blogListViewModel);
     }
 }

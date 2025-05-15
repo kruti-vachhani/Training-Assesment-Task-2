@@ -1,0 +1,28 @@
+@using UserManagement.Models.ViewModels;
+@model List<BlogListViewModel>;
+
+@foreach (var blog in Model)
+{
+    <div class="card col blog-items p-0 ">
+        <div class="d-flex gap-2 h-100">
+
+            <div class="card h-100 blog-image" style="width: 70px;">
+                <img src="~/images/blogs-removebg-preview.png" alt="itemImg" class="h-100 p-1">
+            </div>
+            <div class="d-flex flex-column justify-content-center flex-grow-1 p-2 gap-2">
+                <div class="d-flex fw-bold">
+                    @blog.Title
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <span> @blog.PostedAt</span>
+                    <a asp-controller="User" asp-action="BlogDetails" asp-route-blogId="@blog.BlogId">
+                        <i class="bi bi-eye"
+                            style="font-size: 20px; text-decoration: none !important; color: black !important;"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
