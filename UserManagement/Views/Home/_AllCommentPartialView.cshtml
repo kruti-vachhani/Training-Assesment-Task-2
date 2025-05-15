@@ -1,0 +1,45 @@
+@using UserManagement.Models.ViewModels;
+@model List<CommentViewModel>;
+
+<!-- Modal -->
+<div class="modal fade" id="allCommentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content pt-2">
+            <div class="modal-header border-0">
+                <h4 class="modal-title" id="staticBackdropLabel">Comments</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body px-4">
+
+                @if (Model.Any())
+                {
+                    @foreach (var comment in Model)
+                    {
+                        <div class="d-flex justify-content-start align-items-center gap-3 mt-3">
+                            <img src="~/images/Default_pfp.svg.png" alt="itemImg" height="35px">
+                            @comment.UserName
+                        </div>
+
+                        <div class="ms-5">
+                            @comment.Comment
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="py-1 px-2">No Comments by You.</div>
+                }
+            </div>
+
+            <div class="modal-footer border-0">
+
+                <button type="button" class="btn px-4" data-bs-dismiss="modal"
+                    style="background-color: #3f55e7; color: white;">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

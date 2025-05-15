@@ -43,7 +43,7 @@ public class HomeController : Controller
                 Title = b.Title,
                 Content = b.Content,
                 Tags = b.Tags,
-                PostedAt = b.CreatedAt
+                PostedAt = b.CreatedAt,
             }).ToList();
 
             return View(blogList);
@@ -170,5 +170,23 @@ public class HomeController : Controller
 
         return RedirectToAction("Index", "Auth");
     }
+
+    [HttpGet]
+    public IActionResult OpenAllComments(int blogId)
+    {
+        Blogs? blog = _context.Blogs.FirstOrDefault(d => d.Id == blogId);
+
+        string blogTags = string.Join(",", blog.Tags.Select(p => p));
+
+        List<CommentViewModel>? comments = _context.Comments.Where(c => c.BlodId == blogId).Select(c => new CommentViewModel
+        {
+            BlogId = c.Id,
+            UserName = c.Persons.Firstname + " " + c.Persons.Lastname,
+            Comment = c.Comment
+        }).ToList();
+
+        return PartialView("_AllCommentPartialView", comments);
+    }
+
 
 }

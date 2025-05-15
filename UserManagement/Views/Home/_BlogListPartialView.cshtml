@@ -37,37 +37,10 @@
                 </ul>
 
                 <div>
-                    <button class="btn" style="background-color: #3f55e7; color: white;" type="button"
-                        data-toggle="collapse" data-target="#commentCollaps" aria-expanded="false"
-                        aria-controls="commentCollaps">View Comments</button>
+                    <button class="btn" style="background-color: #3f55e7; color: white;" type="button" onclick="openAllCommentsModal(@blog.BlogId)">View Comments</button>
                 </div>
 
-                <div class="collapse" id="commentCollaps">
-                    <div class="px-4">
-                        <div class="fw-bold" style="font-size: 20px; color:rgb(93, 94, 94)">Comments</div>
-
-                        @if (Model.Comments.Any())
-                        {
-                            @foreach (var comment in Model.Comments)
-                            {
-                                <div class="d-flex justify-content-start align-items-center gap-3 mt-3">
-                                    <img src="~/images/Default_pfp.svg.png" alt="itemImg" height="35px">
-                                    @comment.UserName
-                                </div>
-
-                                <div class="ms-5">
-                                    @comment.Comment
-                                </div>
-                            }
-                        }
-                        else{
-                            <div class="py-1 px-2">No Comments by You.</div>
-                        }
-                    </div>
-                </div>
             </div>
-
-
         </div>
     </div>
 }
@@ -130,6 +103,21 @@
             },
             error: function () {
                 toastr.error("There was an error in delete section");
+            }
+        });
+    }
+
+    function openAllCommentsModal(blogId){
+         $.ajax({
+            type: 'GET',
+            url: '/Home/OpenAllComments',
+             data: { blogId: blogId },
+            success: function (response) {
+                $('#commetsModalContainer').html(response);
+                $('#allCommentModal').modal('show');
+            },
+            error: function () {
+                toastr.error("Error in opening the modal.")
             }
         });
     }
