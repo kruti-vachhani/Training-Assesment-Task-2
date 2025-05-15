@@ -1,0 +1,75 @@
+@using UserManagement.Models.ViewModels;
+@model CommentViewModel;
+
+@* Blog Comment Modal *@
+<div class="modal fade" id="blogCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <div class="modal-title fs-4 fw-bold" style="color:rgb(65, 64, 64)">Blog Comment</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" id="blogCommentForm">
+                <input type="hidden" asp-for="BlogId" />
+
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <textarea class="form-control" asp-for="Comment" placeholder="Comment"
+                            style="height: 100px !important;"></textarea>
+                        <label asp-for="Comment">Comment*</label>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0 justify-content-end mb-0 mt-2">
+                    <button type="button" class="btn px-4 fw-bold" style="background-color: #142ed8; color: white;"
+                        onclick="AddComment()">Save</button>
+
+                    <button type="button" class="btn outline-btn px-4 fw-bold" data-bs-dismiss="modal"
+                        style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">Cancel</button>
+                </div>
+
+                <input type="hidden" id="setBlogIdForComment" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    function AddComment() {
+
+        let blogId = $('#setBlogIdForComment').val();
+        $('#BlogId').val(blogId);
+
+        var form = $('#blogCommentForm')[0];
+        var blogFormData = new FormData(form);
+
+        $('#blogCommentForm').validate();
+
+        if ($('#blogCommentForm').valid() === true) {
+            $.ajax({
+                type: 'POST',
+                url: '/User/AddComment',
+                contentType: false,
+                processData: false,
+                data: blogFormData,
+                success: function (response) {
+                    toastr.success(response.message);
+                    $('#blogCommentModal').modal('hide');
+                },
+                error: function () {
+                    toastr.error("Error in creating Blog");
+                }
+            });
+
+        }
+    }
+</script>

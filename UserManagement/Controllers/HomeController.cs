@@ -79,20 +79,22 @@ public class HomeController : Controller
     {
         if (blogViewModel.BlogId == 0)
         {
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             List<string>? tags = blogViewModel.Tags.ToString().Split(',').Select(t => t.Trim()).ToList();
 
-            Blogs? blogs = new Blogs
+            Blogs? blog = new Blogs
             {
                 Title = blogViewModel.Title.Trim(),
                 Content = blogViewModel.Content.Trim(),
                 Tags = tags,
                 CreatedAt = DateTime.UtcNow,
-                CreatedBy = 1
+                CreatedBy = userId
             };
 
-            if (blogs != null)
+            if (blog != null)
             {
-                _context.Blogs.Add(blogs);
+                _context.Blogs.Add(blog);
                 _context.SaveChanges();
 
                 return Json(new { success = true, message = "Blog Created Successfully." });

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+EEvvH4ibRjmTs9XqMKgJlNrRIS1ON/q/dam2eGK36U=",
+  "Hash": "VQ2ax3V4INKR6cCyea1/PwjqlFEXlPj1aWsvSShFBec=",
   "Source": "UserManagement",
   "BasePath": "_content/UserManagement",
   "Mode": "Default",
@@ -117,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\blogs-removebg-preview.png"
+    },
+    {
+      "Identity": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\wwwroot\\images\\Default_pfp.svg.png",
+      "SourceId": "UserManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\wwwroot\\",
+      "BasePath": "_content/UserManagement",
+      "RelativePath": "images/Default_pfp.svg.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Default_pfp.svg.png"
     },
     {
       "Identity": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\wwwroot\\images\\loginImage.png",

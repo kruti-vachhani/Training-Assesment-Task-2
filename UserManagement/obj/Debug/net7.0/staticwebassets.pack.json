@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\wwwroot\\images\\Default_pfp.svg.png",
+      "PackagePath": "staticwebassets\\images\\Default_pfp.svg.png"
+    },
+    {
       "Id": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\wwwroot\\images\\blogs-removebg-preview.png",
       "PackagePath": "staticwebassets\\images\\blogs-removebg-preview.png"
     },

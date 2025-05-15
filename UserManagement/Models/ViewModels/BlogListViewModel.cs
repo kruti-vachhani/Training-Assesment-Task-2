@@ -7,4 +7,6 @@ public class BlogListViewModel
     public string Content { get; set; }
     public DateTime PostedAt { get; set; }
     public List<string> Tags { get; set; }
+
+    public List<CommentViewModel> Comments { get; set; }
 }

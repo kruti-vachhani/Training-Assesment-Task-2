@@ -15,7 +15,8 @@
                         <i class="bi bi-pen" style="font-size: 20px;"></i>
                     </button>
 
-                    <button class="btn" data-bs-toggle="modal" data-bs-target="#deleteBlogModal" onclick="SetDeleteBlogId(@blog.BlogId)">
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#deleteBlogModal"
+                        onclick="SetDeleteBlogId(@blog.BlogId)">
                         <i class="bi bi-trash" style="font-size: 20px;"></i>
                     </button>
                 </div>
@@ -23,14 +24,49 @@
 
             <h6 class="fw-bold mb-3" style="font-size: 18px;">@blog.PostedAt</h6>
 
-            <p>@blog.Content</p>
+            <div style="max-height: 450px; overflow-y: auto;">
+                <p>@blog.Content</p>
+            </div>
 
-            <ul class="m-0 p-0" style="list-style: none;">
-                @foreach (var tag in blog.Tags)
-                {
-                    <li class="text-primary">#@tag</li>
-                }
-            </ul>
+            <div class="d-flex justify-content-between align-items-center ">
+                <ul class="m-0 p-0" style="list-style: none;">
+                    @foreach (var tag in blog.Tags)
+                    {
+                        <li class="text-primary">#@tag</li>
+                    }
+                </ul>
+
+                <div>
+                    <button class="btn" style="background-color: #3f55e7; color: white;" type="button"
+                        data-toggle="collapse" data-target="#commentCollaps" aria-expanded="false"
+                        aria-controls="commentCollaps">View Comments</button>
+                </div>
+
+                <div class="collapse" id="commentCollaps">
+                    <div class="px-4">
+                        <div class="fw-bold" style="font-size: 20px; color:rgb(93, 94, 94)">Comments</div>
+
+                        @if (Model.Comments.Any())
+                        {
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <div class="d-flex justify-content-start align-items-center gap-3 mt-3">
+                                    <img src="~/images/Default_pfp.svg.png" alt="itemImg" height="35px">
+                                    @comment.UserName
+                                </div>
+
+                                <div class="ms-5">
+                                    @comment.Comment
+                                </div>
+                            }
+                        }
+                        else{
+                            <div class="py-1 px-2">No Comments by You.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -60,7 +96,8 @@
                 <button id="deleteBlogLink" type="button" class="btn btn-filled px-4 fw-bold" data-bs-dismiss="modal"
                     onclick="deleteBlog()" style="background-color: #142ed8; color: white;">YES</button>
 
-                <button type="button" class="btn btn-outline px-4 fw-bold" data-bs-dismiss="modal"  style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">NO</button>
+                <button type="button" class="btn btn-outline px-4 fw-bold" data-bs-dismiss="modal"
+                    style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">NO</button>
             </div>
         </div>
     </div>
