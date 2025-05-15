@@ -12,8 +12,8 @@
 
         <div class="form-group mt-2 serchOrderAppMenuItem">
             <div class="form-floating">
-                <input type="text" class="form-control" id="searchMenuInputOrderApp" placeholder="Search">
-                <label for="searchMenuInputOrderApp">Search</label>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                <label for="searchInput">Search</label>
                 <span class="search-icon">
                     <i class="fa fa-search" style="font-size: 17px; color: #696969;"></i>
                 </span>
@@ -25,8 +25,33 @@
     <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-4 row-cols-xxl-6 g-4 px-md-3 px-4 py-3 blog-cards-container justify-content-center"
         id="allBlogsContainer" style="overflow-x: hidden;">
 
-          @Html.Partial("_BlogCardsPartialView", Model)
+        @Html.Partial("_BlogCardsPartialView", Model)
 
     </div>
 
 </div>
+
+<script>
+    var search="";
+
+    $('#searchInput').on('keyup', function () {
+        search = $(this).val().toLowerCase();
+        LoadBlogsCards();
+    });
+
+
+    function LoadBlogsCards() {
+        $.ajax({
+            type: 'GET',
+            url: '/User/LoadBlogCards',
+            data: { search: search },
+            success: function (response) {
+                $('#allBlogsContainer').html(response);
+            },
+            error: function () {
+                toastr.error("Error in Fetching Blogs.")
+            }
+        });
+    }
+
+</script>

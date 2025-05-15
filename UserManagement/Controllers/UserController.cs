@@ -28,6 +28,26 @@ public class UserController : Controller
 
         return View(blogList);
     }
+    
+    [HttpGet]
+    public IActionResult LoadBlogCards(string search)
+    {
+        IQueryable<Blogs> blogListQuery = _context.Blogs.OrderBy(b => b.Id).Where(b => !b.IsDeleted);
+
+        if(!string.IsNullOrEmpty(search)){
+            blogListQuery = blogListQuery.Where(i => i.Title.ToLower().Contains(search.ToLower()));
+        }
+
+        List<BlogListViewModel>? blogList = blogListQuery
+        .Select(b => new BlogListViewModel
+        {
+            BlogId = b.Id,
+            Title = b.Title,
+            PostedAt = b.CreatedAt
+        }).ToList();
+
+        return PartialView("_BlogCardsPartialView",blogList);
+    }
 
     [HttpGet]
     public IActionResult BlogDetails(int blogId)
