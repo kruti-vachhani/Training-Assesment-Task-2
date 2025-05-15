@@ -1,0 +1,37 @@
+body,html {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.filled-btn {
+    background-color: #455adc;
+    border-color: #455adc;
+    color: white;
+    border-radius: 5px !important;
+}
+
+.outline-btn {
+    background-color: #ffffff;
+    border-color: #455adc;
+    color: #455adc;
+    border-radius: 5px !important;
+}
+
+.filled-btn:hover {
+    background-color: #1a35e7;
+    color: white;
+}
+
+.outline-btn:hover {
+    background-color: #455adc;
+    border-color: #455adc;
+    color: #ffffff;
+}
+
+.errorContainer{
+  height: 40%;
+  width: 30%;
+  border: 2px solid black;
+   box-shadow: 5px 5px 8px rgb(165, 165, 165);
+}
