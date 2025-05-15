@@ -73,6 +73,7 @@ public class HomeController : Controller
         return PartialView("_AddEditBlogPartialView", blogViewModel);
     }
 
+
     [Authorize(Roles = "Admin")]
     [HttpPost]
     public IActionResult SaveBlog(BlogViewModel blogViewModel)
@@ -145,8 +146,8 @@ public class HomeController : Controller
     }
 
 
-    [HttpGet]
     [Authorize(Roles = "Admin")]
+    [HttpGet]
     public IActionResult DeleteBlog(int blogId)
     {
         Blogs? blog = _context.Blogs.FirstOrDefault(d => d.Id == blogId);
@@ -164,13 +165,14 @@ public class HomeController : Controller
 
     public IActionResult Logout()
     {
-        int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
         Response.Cookies.Delete("AuthToken");
         TempData["success"] = "Logout successful!";
 
         return RedirectToAction("Index", "Auth");
     }
 
+    
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult OpenAllComments(int blogId)
     {
