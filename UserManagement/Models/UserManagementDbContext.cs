@@ -11,4 +11,6 @@ public class UserManagementDbContext : DbContext
     }
     
     public DbSet<Persons> Persons { get; set; }
+    public DbSet<Blogs> Blogs { get; set; }
+    public DbSet<Comments> Comments { get; set; }
 }

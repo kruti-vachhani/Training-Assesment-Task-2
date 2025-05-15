@@ -1,16 +1,23 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserManagement.Models;
+using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Controllers;
 
 [Authorize(Roles = "User")]
 public class HomeController : Controller
 {
+    private readonly UserManagementDbContext _context;
+
+    public HomeController(UserManagementDbContext context)
+    {
+        _context = context;
+    }
 
     public IActionResult Index()
     {
-        string? role = HttpContext.Items["Role"]?.ToString();
         string? token = Request.Cookies["AuthToken"];
 
         if (string.IsNullOrEmpty(token))
@@ -18,7 +25,46 @@ public class HomeController : Controller
             return RedirectToAction("Index", "Auth");
         }
 
-        return View();
+        IQueryable<Blogs> blogListQuery = _context.Blogs.Where(b => !b.IsDeleted);
+
+        List<BlogListViewModel>? blogList = blogListQuery
+        .Select(b => new BlogListViewModel
+        {
+            BlogId = b.Id,
+            Title = b.Title,
+            Content = b.Content,
+            Tags = b.Tags,
+            PostedAt = b.CreatedAt
+        }).ToList();
+
+        return View(blogList);
+    }
+
+    public IActionResult OpenCreateBlogModal()
+    {
+        BlogViewModel blogViewModel = new BlogViewModel();
+        return PartialView("_AddEditBlogPartialView", blogViewModel);
+    }
+
+    [HttpPost]
+    public IActionResult CreateBlog(BlogViewModel blogViewModel)
+    {
+        Blogs? blogs = new Blogs
+        {
+            Title = blogViewModel.Title,
+            Content = blogViewModel.Content,
+            Tags = blogViewModel.Tags
+        };
+
+        if (blogs != null)
+        {
+            _context.Blogs.Add(blogs);
+            _context.SaveChanges();
+
+            return Json(new { success = true, message = "Blog Created Successfully." });
+        }
+
+        return Json(new { success = false, message = "Error-Blog can't created." });
     }
 
 

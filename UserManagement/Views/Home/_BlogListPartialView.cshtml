@@ -1,0 +1,20 @@
+@using UserManagement.Models.ViewModels;
+@model List<BlogListViewModel>;
+
+@foreach (var blog in Model)
+{
+    <div class="col">
+        <div class="card p-4">
+            <h2 class="text-uppercase mb-3 fw-bold">@blog.Title</h2>
+            <h6 class="fw-bold mb-3" style="font-size: 18px;">@blog.PostedAt</h6>
+            <p>@blog.Content</p>
+
+            <ul class="m-0 p-0" style="list-style: none;">
+                @foreach(var tag in blog.Tags){
+                    <li class="text-primary">#@tag</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+}

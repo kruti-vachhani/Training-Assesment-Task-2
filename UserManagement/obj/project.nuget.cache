@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KwMAuqhXA82/GZmB04aELqe0ZG3THCorED/2xtDIJKV0I1TdvoTBEcQ4TZ58LM0QVAY+FzN/wnwP3VFmKTA9dQ==",
+  "dgSpecHash": "a21xgNJ1M95o5yp1DgYrkJe5bnDpRqxbcCsaPNJHqQDMzbt/DTFd0J+SdAj8HvjMHdT97+mQ0ieUVxPqzz+GPA==",
   "success": true,
-  "projectFilePath": "E:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
+  "projectFilePath": "e:\\PCTR25\\Training Assesment Task 2\\UserManagement\\UserManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pctr25\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pctr25\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.0\\microsoft.aspnetcore.authentication.jwtbearer.7.0.0.nupkg.sha512",

@@ -1,0 +1,82 @@
+@using UserManagement.Models.ViewModels;
+@model BlogViewModel;
+
+<!-- Modal -->
+<div class="modal fade" id="blogModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content pt-2">
+            <div class="modal-header border-0">
+                <h4 class="modal-title" id="staticBackdropLabel">Create New Blog</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" id="blogForm">
+
+                <div class="modal-body px-4">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="Blog Post" asp-for="Title">
+                        <label asp-for="Title">Title</label>
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" placeholder="first, blog, post" asp-for="Tags">
+                        <label asp-for="Tags">Tags</label>
+                        <span class="text-danger" asp-validation-for="Tags"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Content"
+                            style="height: 300px !important;" asp-for="Content"></textarea>
+                        <label asp-for="Content">Content</label>
+                        <span class="text-danger" asp-validation-for="Content"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0">
+
+                    <button type="button" class="btn px-4" onclick="handleBlogFormSubmission()"
+                        style="background-color: #142ed8; color: white;">Create</button>
+
+                    <button type="button" class="btn" data-bs-dismiss="modal"
+                        style="background-color: #ffffff;border-color: #142ed8; color: #142ed8;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function handleBlogFormSubmission() {
+        const data = {
+            Title: $('#Title').val(),
+            Content:$('#Content').val(),
+            Tags:$('#Tags').val()
+        }
+
+        console.log(data);
+
+     
+
+  
+            $.ajax({
+                type: 'POST',
+                url: '/Home/CreateBlog',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    $('#blogContainer').html(response);
+                    toastr.success(response.message);
+                    $('#blogModal').modal('hide');
+                },
+                error: function () {
+                    toastr.error("Error in creating Blog");
+                }
+            });
+        
+    }
+</script>

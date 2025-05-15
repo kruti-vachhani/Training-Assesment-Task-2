@@ -1,4 +1,5 @@
-body,html {
+body,
+html {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -29,9 +30,30 @@ body,html {
     color: #ffffff;
 }
 
-.errorContainer{
-  height: 40%;
-  width: 30%;
-  border: 2px solid black;
-   box-shadow: 5px 5px 8px rgb(165, 165, 165);
+.errorContainer {
+    height: 40%;
+    width: 30%;
+    border: 2px solid black;
+    box-shadow: 5px 5px 8px rgb(165, 165, 165);
+}
+
+.card {
+    border: none;
+    box-shadow: 5px 5px 8px rgb(165, 165, 165);
+}
+
+.form-control {
+    background-color: #ffffff;
+    font-size: 15px;
+    border-radius: 0px !important;
+}
+
+
+input,textarea{
+    box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus{
+    border-color: #455adc !important;
 }
